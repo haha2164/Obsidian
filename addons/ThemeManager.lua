@@ -55,36 +55,36 @@ local ThemeManager = {
         ["Discord"] = { 19, { FontColor = "ffffff", MainColor = "1a1a1e", AccentColor = "5865f2", BackgroundColor = "1a1a1e", OutlineColor = "292a2d" } }
     },
     Fonts = {
-		"Antique",
-		"Arcade",
-		"Arial",
-		"ArialBold",
-		"Bodoni",
-		"BuilderSans",
-		"Cartoon",
-		"Code",
-		"Fantasy",
-		"Garamond",
-		"Gotham",
-		"GothamBlack",
-		"GothamBold",
-		"GothamMedium",
-		"Highway",
-		"JosefinSans",
-		"Jura",
-		"Legacy",
-		"LuckiestGuy",
-		"Merriweather",
-		"Nunito",
-		"Roboto",
-		"RobotoCondensed",
-		"RobotoMono",
-		"SciFi",
-		"SourceSans",
-		"SourceSansBold",
-		"SourceSansItalic",
-		"Ubuntu"
-	}
+                "Antique",
+                "Arcade",
+                "Arial",
+                "ArialBold",
+                "Bodoni",
+                "BuilderSans",
+                "Cartoon",
+                "Code",
+                "Fantasy",
+                "Garamond",
+                "Gotham",
+                "GothamBlack",
+                "GothamBold",
+                "GothamMedium",
+                "Highway",
+                "JosefinSans",
+                "Jura",
+                "Legacy",
+                "LuckiestGuy",
+                "Merriweather",
+                "Nunito",
+                "Roboto",
+                "RobotoCondensed",
+                "RobotoMono",
+                "SciFi",
+                "SourceSans",
+                "SourceSansBold",
+                "SourceSansItalic",
+                "Ubuntu"
+        }
 }
 do
     local ThemeFields = {
@@ -327,7 +327,6 @@ do
         groupbox:AddToggle("BackgroundImageEnabled", { Text = "Background Image", Default = self.Library.Scheme.BackgroundImageEnabled })
         groupbox:AddInput("BackgroundImage", { Text = "Background Image:", Default = ""})
         groupbox:AddToggle("WindowGlow", { Text = "Window Glow",  Default = self.Library.Scheme.WindowGlow })
-        groupbox:AddDropdown("FontFace", { Text = "Font Face:", Default = "Code", Values = self.Fonts })
         local ThemesArray = {}
         for Name, Theme in pairs(self.BuiltInThemes) do
             table.insert(ThemesArray, Name)
@@ -531,10 +530,6 @@ do
         end)
         self.Library.Options.BackgroundImage:OnChanged(function(Value)
             self.Library:SetBackgroundImage(Value)
-            self.Library:UpdateColorsUsingRegistry()
-        end)
-        self.Library.Options.FontFace:OnChanged(function(Value)
-            self.Library:SetFont(Enum.Font[Value])
             self.Library:UpdateColorsUsingRegistry()
         end)
     end
