@@ -2,23 +2,40 @@ local repo = "https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/he
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/heads/main/addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/heads/main/addons/SaveManager.lua"))()
+
 local Options = Library.Options
 local Toggles = Library.Toggles
+
 Library.ForceCheckbox = false
 Library.ShowToggleFrameInKeybinds = true
+
 local Window = Library:CreateWindow({
 	Title = "mspaint",
 	Footer = "version: example",
-	Icon = 113064253322398,
+	Icon = 95816097006870,
 	NotifySide = "Right",
 	ShowCustomCursor = true,
 })
+
 local Tabs = {
 	Main = Window:AddTab("Main", "user"),
 	Key = Window:AddKeyTab("Key System"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
+
+local Watermark = Library:SetupWatermark({
+	ShowWatermark = true,
+	ScriptName = "mspaint",
+	ShowName = true,
+	ShowFPS = true,
+	ShowPing = true,
+	TextColor = Color3.fromRGB(255, 255, 255),
+	BackgroundColor = Color3.fromRGB(15, 15, 15),
+	BackgroundTransparency = 0.3,
+})
+
 local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
+
 LeftGroupBox:AddToggle("MyToggle", {
 	Text = "This is a toggle",
 	Tooltip = "This is a tooltip",
@@ -46,10 +63,13 @@ LeftGroupBox:AddToggle("MyToggle", {
 			print("[cb] Color changed!", Value)
 		end,
 	})
+
 Toggles.MyToggle:OnChanged(function()
 	print("MyToggle changed to:", Toggles.MyToggle.Value)
 end)
+
 Toggles.MyToggle:SetValue(false)
+
 LeftGroupBox:AddCheckbox("MyCheckbox", {
 	Text = "This is a checkbox",
 	Tooltip = "This is a tooltip",
@@ -62,9 +82,11 @@ LeftGroupBox:AddCheckbox("MyCheckbox", {
 		print("[cb] MyCheckbox changed to:", Value)
 	end,
 })
+
 Toggles.MyCheckbox:OnChanged(function()
 	print("MyCheckbox changed to:", Toggles.MyCheckbox.Value)
 end)
+
 local MyButton = LeftGroupBox:AddButton({
 	Text = "Button",
 	Func = function()
@@ -77,6 +99,7 @@ local MyButton = LeftGroupBox:AddButton({
 	Visible = true,
 	Risky = false,
 })
+
 local MyButton2 = MyButton:AddButton({
 	Text = "Sub button",
 	Func = function()
@@ -86,6 +109,7 @@ local MyButton2 = MyButton:AddButton({
 	Tooltip = "This is the sub button",
 	DisabledTooltip = "I am disabled!",
 })
+
 local MyDisabledButton = LeftGroupBox:AddButton({
 	Text = "Disabled Button",
 	Func = function()
@@ -96,6 +120,7 @@ local MyDisabledButton = LeftGroupBox:AddButton({
 	DisabledTooltip = "I am disabled!",
 	Disabled = true,
 })
+
 LeftGroupBox:AddLabel("This is a label")
 LeftGroupBox:AddLabel("This is a label\n\nwhich wraps its text!", true)
 LeftGroupBox:AddLabel("This is a label exposed to Labels", true, "TestLabel")
@@ -107,7 +132,9 @@ LeftGroupBox:AddLabel("SecondTestLabel", {
 	Text = "This is a label that doesn't wrap it's own text",
 	DoesWrap = false,
 })
+
 LeftGroupBox:AddDivider()
+
 LeftGroupBox:AddSlider("MySlider", {
 	Text = "This is my slider!",
 	Default = 0,
@@ -123,11 +150,14 @@ LeftGroupBox:AddSlider("MySlider", {
 	Disabled = false,
 	Visible = true,
 })
+
 local Number = Options.MySlider.Value
 Options.MySlider:OnChanged(function()
 	print("MySlider was changed! New value:", Options.MySlider.Value)
 end)
+
 Options.MySlider:SetValue(3)
+
 LeftGroupBox:AddSlider("MySlider2", {
 	Text = "This is my custom display slider!",
 	Default = 0,
@@ -136,14 +166,15 @@ LeftGroupBox:AddSlider("MySlider2", {
 	Rounding = 0,
 	Compact = false,
 	FormatDisplayValue = function(slider, value)
-		if value == slider.Max then return 'Everything' end
-		if value == slider.Min then return 'Nothing' end
+		if value == slider.Max then return "Everything" end
+		if value == slider.Min then return "Nothing" end
 	end,
 	Tooltip = "I am a slider!",
 	DisabledTooltip = "I am disabled!",
 	Disabled = false,
 	Visible = true,
 })
+
 LeftGroupBox:AddInput("MyTextbox", {
 	Default = "My textbox!",
 	Numeric = false,
@@ -156,10 +187,13 @@ LeftGroupBox:AddInput("MyTextbox", {
 		print("[cb] Text updated. New text:", Value)
 	end,
 })
+
 Options.MyTextbox:OnChanged(function()
 	print("Text updated. New text:", Options.MyTextbox.Value)
 end)
+
 local DropdownGroupBox = Tabs.Main:AddRightGroupbox("Dropdowns")
+
 DropdownGroupBox:AddDropdown("MyDropdown", {
 	Values = { "This", "is", "a", "dropdown" },
 	Default = 1,
@@ -174,10 +208,13 @@ DropdownGroupBox:AddDropdown("MyDropdown", {
 	Disabled = false,
 	Visible = true,
 })
+
 Options.MyDropdown:OnChanged(function()
 	print("Dropdown got changed. New value:", Options.MyDropdown.Value)
 end)
+
 Options.MyDropdown:SetValue("This")
+
 DropdownGroupBox:AddDropdown("MySearchableDropdown", {
 	Values = { "This", "is", "a", "searchable", "dropdown" },
 	Default = 1,
@@ -192,6 +229,7 @@ DropdownGroupBox:AddDropdown("MySearchableDropdown", {
 	Disabled = false,
 	Visible = true,
 })
+
 DropdownGroupBox:AddDropdown("MyDisplayFormattedDropdown", {
 	Values = { "This", "is", "a", "formatted", "dropdown" },
 	Default = 1,
@@ -200,9 +238,7 @@ DropdownGroupBox:AddDropdown("MyDisplayFormattedDropdown", {
 	Tooltip = "This is a tooltip",
 	DisabledTooltip = "I am disabled!",
 	FormatDisplayValue = function(Value)
-		if Value == "formatted" then
-			return "display formatted"
-		end
+		if Value == "formatted" then return "display formatted" end
 		return Value
 	end,
 	Searchable = false,
@@ -212,6 +248,7 @@ DropdownGroupBox:AddDropdown("MyDisplayFormattedDropdown", {
 	Disabled = false,
 	Visible = true,
 })
+
 DropdownGroupBox:AddDropdown("MyMultiDropdown", {
 	Values = { "This", "is", "a", "dropdown" },
 	Default = 1,
@@ -225,10 +262,12 @@ DropdownGroupBox:AddDropdown("MyMultiDropdown", {
 		end
 	end,
 })
+
 Options.MyMultiDropdown:SetValue({
 	This = true,
 	is = true,
 })
+
 DropdownGroupBox:AddDropdown("MyDisabledDropdown", {
 	Values = { "This", "is", "a", "dropdown" },
 	Default = 1,
@@ -242,6 +281,7 @@ DropdownGroupBox:AddDropdown("MyDisabledDropdown", {
 	Disabled = true,
 	Visible = true,
 })
+
 DropdownGroupBox:AddDropdown("MyDisabledValueDropdown", {
 	Values = { "This", "is", "a", "dropdown", "with", "disabled", "value" },
 	DisabledValues = { "disabled" },
@@ -256,28 +296,9 @@ DropdownGroupBox:AddDropdown("MyDisabledValueDropdown", {
 	Disabled = false,
 	Visible = true,
 })
+
 DropdownGroupBox:AddDropdown("MyVeryLongDropdown", {
-	Values = {
-		"This",
-		"is",
-		"a",
-		"very",
-		"long",
-		"dropdown",
-		"with",
-		"a",
-		"lot",
-		"of",
-		"values",
-		"but",
-		"you",
-		"can",
-		"see",
-		"more",
-		"than",
-		"8",
-		"values",
-	},
+	Values = { "This","is","a","very","long","dropdown","with","a","lot","of","values","but","you","can","see","more","than","8","values" },
 	Default = 1,
 	Multi = false,
 	MaxVisibleDropdownItems = 12,
@@ -291,6 +312,7 @@ DropdownGroupBox:AddDropdown("MyVeryLongDropdown", {
 	Disabled = false,
 	Visible = true,
 })
+
 DropdownGroupBox:AddDropdown("MyPlayerDropdown", {
 	SpecialType = "Player",
 	ExcludeLocalPlayer = true,
@@ -300,6 +322,7 @@ DropdownGroupBox:AddDropdown("MyPlayerDropdown", {
 		print("[cb] Player dropdown got changed:", Value)
 	end,
 })
+
 DropdownGroupBox:AddDropdown("MyTeamDropdown", {
 	SpecialType = "Team",
 	Text = "A team dropdown",
@@ -308,6 +331,7 @@ DropdownGroupBox:AddDropdown("MyTeamDropdown", {
 		print("[cb] Team dropdown got changed:", Value)
 	end,
 })
+
 LeftGroupBox:AddLabel("Color"):AddColorPicker("ColorPicker", {
 	Default = Color3.new(0, 1, 0),
 	Title = "Some color",
@@ -316,11 +340,14 @@ LeftGroupBox:AddLabel("Color"):AddColorPicker("ColorPicker", {
 		print("[cb] Color changed!", Value)
 	end,
 })
+
 Options.ColorPicker:OnChanged(function()
 	print("Color changed!", Options.ColorPicker.Value)
 	print("Transparency changed!", Options.ColorPicker.Transparency)
 end)
+
 Options.ColorPicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
+
 LeftGroupBox:AddLabel("Keybind"):AddKeyPicker("KeyPicker", {
 	Default = "MB2",
 	SyncToggleState = false,
@@ -334,25 +361,29 @@ LeftGroupBox:AddLabel("Keybind"):AddKeyPicker("KeyPicker", {
 		print("[cb] Keybind changed!", NewKey, table.unpack(NewModifiers or {}))
 	end,
 })
+
 Options.KeyPicker:OnClick(function()
 	print("Keybind clicked!", Options.KeyPicker:GetState())
 end)
+
 Options.KeyPicker:OnChanged(function()
 	print("Keybind changed!", Options.KeyPicker.Value, table.unpack(Options.KeyPicker.Modifiers or {}))
 end)
+
 task.spawn(function()
 	while task.wait(1) do
 		local state = Options.KeyPicker:GetState()
 		if state then
 			print("KeyPicker is being held down")
 		end
-		if Library.Unloaded then
-			break
-		end
+		if Library.Unloaded then break end
 	end
 end)
+
 Options.KeyPicker:SetValue({ "MB2", "Hold" })
+
 local KeybindNumber = 0
+
 LeftGroupBox:AddLabel("Press Keybind"):AddKeyPicker("KeyPicker2", {
 	Default = "X",
 	Mode = "Press",
@@ -361,26 +392,33 @@ LeftGroupBox:AddLabel("Press Keybind"):AddKeyPicker("KeyPicker2", {
 	Callback = function()
 		KeybindNumber = KeybindNumber + 1
 		print("[cb] Keybind clicked! Number increased to:", KeybindNumber)
-	end
+	end,
 })
+
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Groupbox #2")
 LeftGroupBox2:AddLabel(
 	"This label spans multiple lines! We're gonna run out of UI space...\nJust kidding! Scroll down!\n\n\nHello from below!",
 	true
 )
+
 local TabBox = Tabs.Main:AddRightTabbox()
+
 local Tab1 = TabBox:AddTab("Tab 1")
 Tab1:AddToggle("Tab1Toggle", { Text = "Tab1 Toggle" })
+
 local Tab2 = TabBox:AddTab("Tab 2")
 Tab2:AddToggle("Tab2Toggle", { Text = "Tab2 Toggle" })
+
 Library:OnUnload(function()
 	print("Unloaded!")
 end)
+
 Tabs.Key:AddLabel({
 	Text = "Key: Banana",
 	DoesWrap = true,
 	Size = 16,
 })
+
 Tabs.Key:AddKeyBox(function(ReceivedKey)
 	local Success = ReceivedKey == "Banana"
 	print("Expected Key: Banana - Received Key:", ReceivedKey, "| Success:", Success)
@@ -390,8 +428,11 @@ Tabs.Key:AddKeyBox(function(ReceivedKey)
 		Time = 4,
 	})
 end)
+
 Library:AddDraggableLabel("This is a Draggable Label")
+
 local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu", "wrench")
+
 MenuGroup:AddToggle("KeybindMenuOpen", {
 	Default = Library.KeybindFrame.Visible,
 	Text = "Open Keybind Menu",
@@ -420,8 +461,7 @@ MenuGroup:AddDropdown("DPIDropdown", {
 	Text = "DPI Scale",
 	Callback = function(Value)
 		Value = Value:gsub("%%", "")
-		local DPI = tonumber(Value)
-		Library:SetDPIScale(DPI)
+		Library:SetDPIScale(tonumber(Value))
 	end,
 })
 MenuGroup:AddSlider("UICornerSlider", {
@@ -432,22 +472,93 @@ MenuGroup:AddSlider("UICornerSlider", {
 	Rounding = 0,
 	Callback = function(value)
 		Window:SetCornerRadius(value)
-	end
+	end,
 })
+
 MenuGroup:AddDivider()
 MenuGroup:AddLabel("Menu bind")
 	:AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Menu keybind" })
+
 MenuGroup:AddButton("Unload", function()
 	Library:Unload()
 end)
+
+local WatermarkGroup = Tabs["UI Settings"]:AddRightGroupbox("Watermark", "monitor")
+
+WatermarkGroup:AddToggle("WatermarkVisible", {
+	Text = "Show Watermark",
+	Default = true,
+	Callback = function(Value)
+		Watermark:SetVisible(Value)
+	end,
+})
+WatermarkGroup:AddToggle("WatermarkShowName", {
+	Text = "Show Player Name",
+	Default = true,
+	Callback = function(Value)
+		Watermark:ShowName(Value)
+	end,
+})
+WatermarkGroup:AddToggle("WatermarkShowFPS", {
+	Text = "Show FPS",
+	Default = true,
+	Callback = function(Value)
+		Watermark:ShowFPS(Value)
+	end,
+})
+WatermarkGroup:AddToggle("WatermarkShowPing", {
+	Text = "Show Ping",
+	Default = true,
+	Callback = function(Value)
+		Watermark:ShowPing(Value)
+	end,
+})
+WatermarkGroup:AddInput("WatermarkText", {
+	Default = "mspaint",
+	Text = "Script Name",
+	Placeholder = "Enter script name...",
+	Callback = function(Value)
+		Watermark:SetScriptName(Value ~= "" and Value or "mspaint")
+	end,
+})
+WatermarkGroup:AddLabel("Text Color"):AddColorPicker("WatermarkTextColor", {
+	Default = Color3.new(1, 1, 1),
+	Title = "Watermark Text Color",
+	Callback = function(Value)
+		Watermark:SetTextColor(Value)
+	end,
+})
+WatermarkGroup:AddLabel("Background Color"):AddColorPicker("WatermarkBgColor", {
+	Default = Color3.fromRGB(15, 15, 15),
+	Title = "Watermark Background Color",
+	Callback = function(Value)
+		Watermark:SetBackgroundColor(Value)
+	end,
+})
+WatermarkGroup:AddSlider("WatermarkBgTransparency", {
+	Text = "Background Transparency",
+	Default = 30,
+	Min = 0,
+	Max = 100,
+	Rounding = 0,
+	Callback = function(Value)
+		Watermark:SetBackgroundTransparency(Value / 100)
+	end,
+})
+
 Library.ToggleKeybind = Options.MenuKeybind
+
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
+
 SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
+
 ThemeManager:SetFolder("MyScriptHub")
 SaveManager:SetFolder("MyScriptHub/specific-game")
 SaveManager:SetSubFolder("specific-place")
+
 SaveManager:BuildConfigSection(Tabs["UI Settings"])
 ThemeManager:ApplyToTab(Tabs["UI Settings"])
+
 SaveManager:LoadAutoloadConfig()
