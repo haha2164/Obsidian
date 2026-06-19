@@ -327,7 +327,7 @@ do
         groupbox:AddToggle("BackgroundImageEnabled", { Text = "Background Image", Default = self.Library.Scheme.BackgroundImageEnabled })
         groupbox:AddInput("BackgroundImage", { Text = "Background Image:", Default = ""})
         groupbox:AddToggle("WindowGlow", { Text = "Window Glow", Default = self.Library.Scheme.WindowGlow })
-        groupbox:AddToggle("GradientAnimation", { Text = "Gradient Animation", Default = self.Library.Scheme.GradientEnabled })
+        groupbox:AddToggle("GradientAnimation", { Text = "Window Animation", Default = self.Library.Scheme.GradientEnabled })
         groupbox:AddSlider("WindowTransparency", { Text = "Window Transparency:", Min = 0, Max = 80, Default = self.Library.Scheme.WindowTransparency or 0, Rounding = 0, Suffix = "%" })
         groupbox:AddSlider("CornerRadius", { Text = "Corner Radius:", Min = 0, Max = 20, Default = self.Library.CornerRadius or 11, Rounding = 0 })
         local ThemesArray = {}
