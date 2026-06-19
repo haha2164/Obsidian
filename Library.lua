@@ -179,7 +179,7 @@ local Library = {
     Scheme = {
         BackgroundColor = Color3.fromRGB(15, 15, 15),
         MainColor = Color3.fromRGB(25, 25, 25),
-        AccentColor = Color3.fromRGB(125, 85, 255),
+        AccentColor = Color3.fromRGB(255, 20, 147),
         OutlineColor = Color3.fromRGB(40, 40, 40),
         FontColor = Color3.new(1, 1, 1),
         Font = Font.fromEnum(Enum.Font.GothamBlack),
@@ -8880,7 +8880,6 @@ Library:GiveSignal(Players.PlayerAdded:Connect(OnPlayerChange))
 Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
 Library:GiveSignal(Teams.ChildAdded:Connect(OnTeamChange))
 Library:GiveSignal(Teams.ChildRemoved:Connect(OnTeamChange))
-
 do
     local _WMGui = nil
     local _WMFrame = nil
@@ -8890,7 +8889,6 @@ do
     local _WMFPS = 0
     local _WMFrameCount = 0
     local _WMLastTime = tick()
-
     Library.WatermarkConfig = {
         ShowWatermark = false,
         ScriptName = "Script",
@@ -8901,20 +8899,16 @@ do
         BackgroundColor = Color3.fromRGB(15, 15, 15),
         BackgroundTransparency = 0.3,
     }
-
     function Library:SetupWatermark(config)
         config = config or {}
         for k, v in pairs(config) do
             Library.WatermarkConfig[k] = v
         end
-
         if _WMGui then _WMGui:Destroy() end
         if _WMConn then _WMConn:Disconnect() end
         if _WMFPSConn then _WMFPSConn:Disconnect() end
-
         local cfg = Library.WatermarkConfig
         local lp = Players.LocalPlayer
-
         _WMGui = Instance.new("ScreenGui")
         _WMGui.Name = "LibraryWatermark"
         _WMGui.ResetOnSpawn = false
@@ -8927,7 +8921,6 @@ do
         if not _WMGui.Parent then
             _WMGui.Parent = lp:WaitForChild("PlayerGui")
         end
-
         _WMFrame = Instance.new("Frame")
         _WMFrame.Name = "WatermarkFrame"
         _WMFrame.BackgroundColor3 = cfg.BackgroundColor
@@ -8937,21 +8930,17 @@ do
         _WMFrame.Size = UDim2.new(0, 220, 0, 28)
         _WMFrame.Visible = cfg.ShowWatermark
         _WMFrame.Parent = _WMGui
-
         local corner = Instance.new("UICorner")
         corner.CornerRadius = UDim.new(0, 6)
         corner.Parent = _WMFrame
-
         local stroke = Instance.new("UIStroke")
         stroke.Color = Color3.fromRGB(60, 60, 60)
         stroke.Thickness = 1
         stroke.Parent = _WMFrame
-
         local padding = Instance.new("UIPadding")
         padding.PaddingLeft = UDim.new(0, 8)
         padding.PaddingRight = UDim.new(0, 8)
         padding.Parent = _WMFrame
-
         _WMLabel = Instance.new("TextLabel")
         _WMLabel.Name = "WatermarkLabel"
         _WMLabel.BackgroundTransparency = 1
@@ -8962,7 +8951,6 @@ do
         _WMLabel.TextSize = 13
         _WMLabel.TextXAlignment = Enum.TextXAlignment.Left
         _WMLabel.Parent = _WMFrame
-
         _WMFPSConn = RunService.RenderStepped:Connect(function()
             _WMFrameCount += 1
             local now = tick()
@@ -8972,16 +8960,13 @@ do
                 _WMLastTime = now
             end
         end)
-
         _WMConn = RunService.Heartbeat:Connect(function()
             if not Library.WatermarkConfig.ShowWatermark then
                 _WMFrame.Visible = false
                 return
             end
             _WMFrame.Visible = true
-
             local parts = { Library.WatermarkConfig.ScriptName }
-
             if Library.WatermarkConfig.ShowName then
                 table.insert(parts, lp.Name)
             end
@@ -8994,7 +8979,6 @@ do
                 end)
                 table.insert(parts, (ok2 and ping or "?") .. "ms")
             end
-
             local newText = table.concat(parts, "  |  ")
             if _WMLabel.Text ~= newText then
                 _WMLabel.Text = newText
@@ -9002,10 +8986,8 @@ do
                 _WMFrame.Size = UDim2.new(0, size.X + 20, 0, 28)
             end
         end)
-
         Library:GiveSignal(_WMFPSConn)
         Library:GiveSignal(_WMConn)
-
         return {
             Frame = _WMFrame,
             Label = _WMLabel,
@@ -9034,6 +9016,5 @@ do
         }
     end
 end
-
 getgenv().Library = Library
 return Library
