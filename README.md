@@ -1,2 +1,2 @@
 # Obsidian-UiLibs
-Fee to use to
+Free to use to
