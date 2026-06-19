@@ -5435,6 +5435,7 @@ function Library:SetGradientAnimation(State: boolean)
     if State then
         if not Library.GradientConnection then
             local t = 0
+            local hShift = 0
             Library.GradientConnection = RunService.Heartbeat:Connect(function(dt)
                 if Library.Unloaded or not Library.Scheme.GradientEnabled then
                     if Library.GradientConnection then Library.GradientConnection:Disconnect() end
@@ -5442,9 +5443,20 @@ function Library:SetGradientAnimation(State: boolean)
                     if Library.GradientOverlay then Library.GradientOverlay.Visible = false end
                     return
                 end
-                t = (t + dt * 25) % 360
+                t = (t + dt * 40) % 360
+                hShift = (hShift + dt * 0.12) % 1
                 if Library.GradientColor then
                     Library.GradientColor.Rotation = t
+                    local h, s, v = Library.Scheme.AccentColor:ToHSV()
+                    local shifted1 = Color3.fromHSV((h + hShift * 0.3) % 1, math.min(s * 1.1, 1), math.min(v * 1.25, 1))
+                    local shifted2 = Color3.fromHSV((h + hShift * 0.3 + 0.15) % 1, s, math.min(v * 0.85, 1))
+                    Library.GradientColor.Color = ColorSequence.new({
+                        ColorSequenceKeypoint.new(0, Library.Scheme.AccentColor),
+                        ColorSequenceKeypoint.new(0.25, shifted1),
+                        ColorSequenceKeypoint.new(0.5, Library.Scheme.MainColor),
+                        ColorSequenceKeypoint.new(0.75, shifted2),
+                        ColorSequenceKeypoint.new(1, Library.Scheme.AccentColor),
+                    })
                 end
             end)
             Library:GiveSignal(Library.GradientConnection)
@@ -5590,7 +5602,7 @@ function Library:CreateWindow(WindowInfo)
         do
             local GradientOverlay = New("Frame", {
                 BackgroundColor3 = Color3.new(1, 1, 1),
-                BackgroundTransparency = 1,
+                BackgroundTransparency = 0,
                 ClipsDescendants = true,
                 Size = UDim2.fromScale(1, 1),
                 ZIndex = 2,
@@ -5604,13 +5616,16 @@ function Library:CreateWindow(WindowInfo)
             local GradientColor = New("UIGradient", {
                 Color = ColorSequence.new({
                     ColorSequenceKeypoint.new(0, Library.Scheme.AccentColor),
-                    ColorSequenceKeypoint.new(0.5, Library.Scheme.MainColor),
-                    ColorSequenceKeypoint.new(1, Library.Scheme.AccentColor),
+                    ColorSequenceKeypoint.new(0.33, Library.Scheme.MainColor),
+                    ColorSequenceKeypoint.new(0.66, Library.Scheme.AccentColor),
+                    ColorSequenceKeypoint.new(1, Library.Scheme.MainColor),
                 }),
                 Transparency = NumberSequence.new({
-                    NumberSequenceKeypoint.new(0, 0.82),
-                    NumberSequenceKeypoint.new(0.5, 0.6),
-                    NumberSequenceKeypoint.new(1, 0.82),
+                    NumberSequenceKeypoint.new(0, 0.88),
+                    NumberSequenceKeypoint.new(0.25, 0.72),
+                    NumberSequenceKeypoint.new(0.5, 0.80),
+                    NumberSequenceKeypoint.new(0.75, 0.72),
+                    NumberSequenceKeypoint.new(1, 0.88),
                 }),
                 Rotation = 0,
                 Parent = GradientOverlay,
@@ -5921,6 +5936,12 @@ function Library:CreateWindow(WindowInfo)
                 Tabbox:UpdateCorners()
             end
         end
+    end
+    function Window:SetWindowTransparency(Transparency: number)
+        assert(typeof(Transparency) == "number", "Expected number for Transparency, got: " .. typeof(Transparency))
+        local alpha = math.clamp(Transparency / 100, 0, 0.85)
+        MainFrame.BackgroundTransparency = alpha
+        Library.Scheme.WindowTransparency = Transparency
     end
     local function ApplyCompact()
         IsCompact = Window:GetSidebarWidth() == WindowInfo.SidebarCompactWidth
