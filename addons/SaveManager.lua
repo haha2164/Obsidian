@@ -43,6 +43,7 @@ local SaveManager = {} do
     SaveManager.SubFolder = ""
     SaveManager.Ignore = {}
     SaveManager.Library = nil
+    SaveManager.ThemeManager = nil
     SaveManager.UseLoadingOrder = false
     SaveManager.LoadingOrder = {}
     SaveManager.Parser = {
@@ -114,6 +115,10 @@ local SaveManager = {} do
 
     function SaveManager:SetLibrary(library)
         self.Library = library
+    end
+
+    function SaveManager:SetThemeManager(themeManager)
+        self.ThemeManager = themeManager
     end
 
     function SaveManager:SetLoadingOrder(enabled, order)
@@ -243,6 +248,10 @@ local SaveManager = {} do
             if self.Ignore[idx] then continue end
 
             table.insert(data.objects, self.Parser[option.Type].Save(idx, option))
+        end
+
+        if self.ThemeManager then
+            data.theme = self.ThemeManager:GetThemeSaveData()
         end
 
         local success, encoded = pcall(HttpService.JSONEncode, HttpService, data)
