@@ -546,6 +546,9 @@ do
         local groupbox = self:CreateGroupBox(tab)
         self:CreateOptions(groupbox)
     end
+    function ThemeManager:ApplyToTab(tab)
+        return self:AddThemeOptions(tab)
+    end
     function ThemeManager:ApplyToGroupbox(groupbox)
         assert(self.Library, "Must set ThemeManager.Library first!")
         self:CreateOptions(groupbox)
