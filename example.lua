@@ -1,7 +1,7 @@
-local repo = "https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/heads/main/"
-local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
-local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/heads/main/addons/ThemeManager.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ali-lov3/Obsidian-UiLibs/refs/heads/main/addons/SaveManager.lua"))()
+local Repo = 'https://raw.githubusercontent.com/haha2164/Obsidian/main/'
+local Library = loadstring(game:HttpGet(Repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(Repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(Repo .. 'addons/SaveManager.lua'))()
 
 local Options = Library.Options
 local Toggles = Library.Toggles
